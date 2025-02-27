@@ -1,8 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
+import { MantineProvider, createTheme } from '@mantine/core';
 import '@mantine/core/styles.css';
-import { MantineProvider } from '@mantine/core';
+
+const theme = createTheme({
+  /** Put your mantine theme override here */
+});
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -10,7 +14,7 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <MantineProvider>
+    <MantineProvider theme={theme}>
       <App />
     </MantineProvider>
   </React.StrictMode>
