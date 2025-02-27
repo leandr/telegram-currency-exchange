@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from '@mantine/form';
-import { Box, Select, NumberInput, Button } from '@mantine/core';
+import { Box, Select, NumberInput, Button, Text } from '@mantine/core';
 import WebApp from '@twa-dev/sdk';
 import { Order } from '../types';
+import { fetchExchangeRate } from '../services/exchangeRates';
 
 interface CreateOrderProps {
   onCreateOrder: (order: Omit<Order, 'id' | 'createdAt' | 'status'>) => void;
@@ -36,6 +37,25 @@ function CreateOrder({ onCreateOrder }: CreateOrderProps) {
       rate: (value: number) => (value <= 0 ? 'Rate must be positive' : null),
     },
   });
+
+  const updateExchangeRate = async (fromCurrency: string, toCurrency: string) => {
+    if (fromCurrency && toCurrency && fromCurrency !== toCurrency) {
+      try {
+        const rate = await fetchExchangeRate(fromCurrency, toCurrency);
+        form.setFieldValue('rate', Number(rate.toFixed(4)));
+      } catch (error) {
+        console.error('Failed to fetch exchange rate:', error);
+      }
+    }
+  };
+
+  // Watch for currency changes
+  useEffect(() => {
+    const { fromCurrency, toCurrency } = form.values;
+    if (fromCurrency && toCurrency) {
+      updateExchangeRate(fromCurrency, toCurrency);
+    }
+  }, [form.values.fromCurrency, form.values.toCurrency]);
 
   const handleSubmit = form.onSubmit((values: OrderFormValues) => {
     onCreateOrder({
@@ -84,9 +104,11 @@ function CreateOrder({ onCreateOrder }: CreateOrderProps) {
 
         <NumberInput
           label="Exchange Rate"
-          placeholder="Enter rate"
+          placeholder="Rate will be fetched automatically"
           min={0}
           precision={4}
+          disabled
+          description="Exchange rate is automatically updated when you select currencies"
           {...form.getInputProps('rate')}
         />
 
