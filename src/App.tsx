@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Tabs } from '@mantine/core';
+import { Tabs } from '@mantine/core';
 import { IconList, IconPlus } from '@tabler/icons-react';
 import WebApp from '@twa-dev/sdk';
 import OrderList from './components/OrderList';
@@ -36,7 +36,7 @@ function App() {
   };
 
   return (
-    <Container p="md">
+    <div style={{ padding: '1rem' }}>
       <Tabs value={activeTab} onChange={(value) => setActiveTab(value || 'list')}>
         <Tabs.List>
           <Tabs.Tab value="list" leftSection={<IconList size={16} />}>
@@ -55,7 +55,7 @@ function App() {
           <CreateOrder onCreateOrder={handleCreateOrder} />
         </Tabs.Panel>
       </Tabs>
-    </Container>
+    </div>
   );
 }
 
