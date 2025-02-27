@@ -8,7 +8,7 @@ import { Order } from './types';
 
 function App() {
   const [orders, setOrders] = useState<Order[]>([]);
-  const [activeTab, setActiveTab] = useState('list');
+  const [activeTab, setActiveTab] = useState<string>('list');
 
   useEffect(() => {
     // Initialize Telegram Mini App
@@ -37,12 +37,12 @@ function App() {
 
   return (
     <div style={{ padding: '1rem' }}>
-      <Tabs value={activeTab} onChange={(value) => setActiveTab(value || 'list')}>
+      <Tabs value={activeTab} onTabChange={(value) => setActiveTab(value || 'list')}>
         <Tabs.List>
-          <Tabs.Tab value="list" leftSection={<IconList size={16} />}>
+          <Tabs.Tab value="list" icon={<IconList size={16} />}>
             Orders
           </Tabs.Tab>
-          <Tabs.Tab value="create" leftSection={<IconPlus size={16} />}>
+          <Tabs.Tab value="create" icon={<IconPlus size={16} />}>
             Create Order
           </Tabs.Tab>
         </Tabs.List>
