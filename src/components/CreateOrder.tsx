@@ -8,10 +8,18 @@ interface CreateOrderProps {
   onCreateOrder: (order: Omit<Order, 'id' | 'createdAt' | 'status'>) => void;
 }
 
+interface OrderFormValues {
+  type: 'buy' | 'sell';
+  fromCurrency: string;
+  toCurrency: string;
+  amount: number;
+  rate: number;
+}
+
 const CURRENCIES = ['USD', 'EUR', 'GBP', 'JPY', 'AUD', 'CAD', 'CHF', 'CNY'];
 
 function CreateOrder({ onCreateOrder }: CreateOrderProps) {
-  const form = useForm({
+  const form = useForm<OrderFormValues>({
     initialValues: {
       type: 'buy',
       fromCurrency: '',
@@ -20,16 +28,16 @@ function CreateOrder({ onCreateOrder }: CreateOrderProps) {
       rate: 0,
     },
     validate: {
-      fromCurrency: (value) => (!value ? 'Select a currency' : null),
-      toCurrency: (value, values) => 
+      fromCurrency: (value: string) => (!value ? 'Select a currency' : null),
+      toCurrency: (value: string, values: OrderFormValues) => 
         !value ? 'Select a currency' : 
         value === values.fromCurrency ? 'Cannot be the same as source currency' : null,
-      amount: (value) => (value <= 0 ? 'Amount must be positive' : null),
-      rate: (value) => (value <= 0 ? 'Rate must be positive' : null),
+      amount: (value: number) => (value <= 0 ? 'Amount must be positive' : null),
+      rate: (value: number) => (value <= 0 ? 'Rate must be positive' : null),
     },
   });
 
-  const handleSubmit = form.onSubmit((values) => {
+  const handleSubmit = form.onSubmit((values: OrderFormValues) => {
     onCreateOrder({
       ...values,
       userId: WebApp.initDataUnsafe.user?.id.toString() || 'unknown',
