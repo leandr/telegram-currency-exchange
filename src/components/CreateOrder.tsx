@@ -1,6 +1,6 @@
 import React from 'react';
 import { useForm } from '@mantine/form';
-import { TextInput, NumberInput, Select, Button, Stack } from '@mantine/core';
+import { Box, Select, NumberInput, Button } from '@mantine/core';
 import WebApp from '@twa-dev/sdk';
 import { Order } from '../types';
 
@@ -48,7 +48,7 @@ function CreateOrder({ onCreateOrder }: CreateOrderProps) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <Stack gap="md" mt="md">
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginTop: '1rem' }}>
         <Select
           label="Order Type"
           placeholder="Select order type"
@@ -91,7 +91,7 @@ function CreateOrder({ onCreateOrder }: CreateOrderProps) {
         />
 
         <Button type="submit">Create Order</Button>
-      </Stack>
+      </Box>
     </form>
   );
 }

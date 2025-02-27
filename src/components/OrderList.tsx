@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Text, Button, Group, Stack, Badge } from '@mantine/core';
+import { Card, Text, Button, Group, Box, Badge } from '@mantine/core';
 import { Order } from '../types';
 
 interface OrderListProps {
@@ -22,14 +22,14 @@ function OrderList({ orders, onOrderAction }: OrderListProps) {
   };
 
   return (
-    <Stack gap="md" mt="md">
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginTop: '1rem' }}>
       {orders.length === 0 ? (
-        <Text c="dimmed" ta="center">No orders available</Text>
+        <Text c="dimmed" align="center">No orders available</Text>
       ) : (
         orders.map((order) => (
           <Card key={order.id} shadow="sm" padding="md" radius="md" withBorder>
-            <Group justify="space-between" mb="xs">
-              <Text fw={500}>
+            <Group position="apart" mb="xs">
+              <Text weight={500}>
                 {order.type.toUpperCase()}: {order.fromCurrency} → {order.toCurrency}
               </Text>
               <Badge color={getStatusColor(order.status)}>
@@ -37,10 +37,10 @@ function OrderList({ orders, onOrderAction }: OrderListProps) {
               </Badge>
             </Group>
 
-            <Text size="sm" c="dimmed">Amount: {order.amount} {order.fromCurrency}</Text>
-            <Text size="sm" c="dimmed">Rate: 1 {order.fromCurrency} = {order.rate} {order.toCurrency}</Text>
-            <Text size="sm" c="dimmed">Total: {order.amount * order.rate} {order.toCurrency}</Text>
-            <Text size="sm" c="dimmed">Created by: {order.userName}</Text>
+            <Text size="sm" color="dimmed">Amount: {order.amount} {order.fromCurrency}</Text>
+            <Text size="sm" color="dimmed">Rate: 1 {order.fromCurrency} = {order.rate} {order.toCurrency}</Text>
+            <Text size="sm" color="dimmed">Total: {order.amount * order.rate} {order.toCurrency}</Text>
+            <Text size="sm" color="dimmed">Created by: {order.userName}</Text>
 
             {order.status === 'active' && (
               <Group mt="md">
@@ -65,7 +65,7 @@ function OrderList({ orders, onOrderAction }: OrderListProps) {
           </Card>
         ))
       )}
-    </Stack>
+    </Box>
   );
 }
 
