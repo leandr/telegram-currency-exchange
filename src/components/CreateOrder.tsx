@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useForm } from '@mantine/form';
-import { Box, Select, NumberInput, Button, Text } from '@mantine/core';
+import { Box, Select, NumberInput, Button, Text, Paper } from '@mantine/core';
 import WebApp from '@twa-dev/sdk';
 import { Order } from '../types';
 import { fetchExchangeRate } from '../services/exchangeRates';
@@ -48,6 +48,15 @@ function CreateOrder({ onCreateOrder }: CreateOrderProps) {
       }
     }
   };
+
+  // Calculate the total amount in target currency
+  const calculatedAmount = useMemo(() => {
+    const { amount, rate, fromCurrency, toCurrency } = form.values;
+    if (amount && rate && fromCurrency && toCurrency) {
+      return (amount * rate).toFixed(2);
+    }
+    return null;
+  }, [form.values.amount, form.values.rate, form.values.fromCurrency, form.values.toCurrency]);
 
   // Watch for currency changes
   useEffect(() => {
@@ -111,6 +120,17 @@ function CreateOrder({ onCreateOrder }: CreateOrderProps) {
           description="Exchange rate is automatically updated when you select currencies"
           {...form.getInputProps('rate')}
         />
+
+        {calculatedAmount && form.values.fromCurrency && form.values.toCurrency && (
+          <Paper p="sm" withBorder>
+            <Text size="sm" weight={500}>
+              Order Summary:
+            </Text>
+            <Text size="sm" color="dimmed">
+              {form.values.amount} {form.values.fromCurrency} = {calculatedAmount} {form.values.toCurrency}
+            </Text>
+          </Paper>
+        )}
 
         <Button type="submit">Create Order</Button>
       </Box>
