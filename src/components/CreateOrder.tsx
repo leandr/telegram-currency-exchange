@@ -16,7 +16,7 @@ interface OrderFormValues {
   rate: number;
 }
 
-const CURRENCIES = ['USD', 'EUR', 'GBP', 'JPY', 'AUD', 'CAD', 'CHF', 'CNY'];
+const CURRENCIES = ['USD', 'EUR', 'GBP', 'RUB', 'AED'];
 
 function CreateOrder({ onCreateOrder }: CreateOrderProps) {
   const form = useForm<OrderFormValues>({
