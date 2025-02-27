@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.js": "/telegram-currency-exchange/static/js/main.94d3a27b.js",
+    "main.js": "/telegram-currency-exchange/static/js/main.6a2d6442.js",
     "index.html": "/telegram-currency-exchange/index.html",
-    "main.94d3a27b.js.map": "/telegram-currency-exchange/static/js/main.94d3a27b.js.map"
+    "main.6a2d6442.js.map": "/telegram-currency-exchange/static/js/main.6a2d6442.js.map"
   },
   "entrypoints": [
-    "static/js/main.94d3a27b.js"
+    "static/js/main.6a2d6442.js"
   ]
 }
