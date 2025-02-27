@@ -6,6 +6,7 @@
   "dependencies": {
     "@emotion/react": "^11.11.0",
     "@mantine/core": "^7.4.0",
+    "@mantine/form": "^7.17.0",
     "@mantine/hooks": "^7.4.0",
     "@tabler/icons-react": "^2.46.0",
     "@twa-dev/sdk": "^6.9.1",
