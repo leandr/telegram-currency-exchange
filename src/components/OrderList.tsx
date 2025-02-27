@@ -1,0 +1,72 @@
+import React from 'react';
+import { Card, Text, Button, Group, Stack, Badge } from '@mantine/core';
+import { Order } from '../types';
+
+interface OrderListProps {
+  orders: Order[];
+  onOrderAction: (orderId: string, action: 'complete' | 'cancel') => void;
+}
+
+function OrderList({ orders, onOrderAction }: OrderListProps) {
+  const getStatusColor = (status: Order['status']) => {
+    switch (status) {
+      case 'active':
+        return 'blue';
+      case 'completed':
+        return 'green';
+      case 'cancelled':
+        return 'red';
+      default:
+        return 'gray';
+    }
+  };
+
+  return (
+    <Stack gap="md" mt="md">
+      {orders.length === 0 ? (
+        <Text c="dimmed" ta="center">No orders available</Text>
+      ) : (
+        orders.map((order) => (
+          <Card key={order.id} shadow="sm" padding="md" radius="md" withBorder>
+            <Group justify="space-between" mb="xs">
+              <Text fw={500}>
+                {order.type.toUpperCase()}: {order.fromCurrency} → {order.toCurrency}
+              </Text>
+              <Badge color={getStatusColor(order.status)}>
+                {order.status}
+              </Badge>
+            </Group>
+
+            <Text size="sm" c="dimmed">Amount: {order.amount} {order.fromCurrency}</Text>
+            <Text size="sm" c="dimmed">Rate: 1 {order.fromCurrency} = {order.rate} {order.toCurrency}</Text>
+            <Text size="sm" c="dimmed">Total: {order.amount * order.rate} {order.toCurrency}</Text>
+            <Text size="sm" c="dimmed">Created by: {order.userName}</Text>
+
+            {order.status === 'active' && (
+              <Group mt="md">
+                <Button 
+                  variant="filled" 
+                  color="green" 
+                  size="sm"
+                  onClick={() => onOrderAction(order.id, 'complete')}
+                >
+                  Complete
+                </Button>
+                <Button 
+                  variant="light" 
+                  color="red" 
+                  size="sm"
+                  onClick={() => onOrderAction(order.id, 'cancel')}
+                >
+                  Cancel
+                </Button>
+              </Group>
+            )}
+          </Card>
+        ))
+      )}
+    </Stack>
+  );
+}
+
+export default OrderList;
